@@ -1,0 +1,29 @@
+{
+  "version": "0.6.1",
+  "description": "A Unified MCP Server Management App",
+  "homepage": "https://github.com/mcp-router/mcp-router",
+  "license": "Sustainable Use License",
+  "architecture": {
+    "64bit": {
+      "url": "https://github.com/mcp-router/mcp-router/releases/download/v0.6.1/MCP-Router-0.6.1.msi",
+      "hash": "sha256:TO_BE_GENERATED"
+    }
+  },
+  "pre_install": "if (!(Test-Path \"$persist_dir\")) { New-Item -ItemType Directory -Path \"$persist_dir\" -Force | Out-Null }",
+  "installer": {
+    "script": [
+      "Start-Process msiexec.exe -ArgumentList @('/i', \"$file\", '/qn', '/norestart') -Wait"
+    ]
+  },
+  "uninstaller": {
+    "script": [
+      "Start-Process msiexec.exe -ArgumentList @('/x', (Get-Item (Get-ItemProperty -Path @('HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\*', 'HKLM:\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\*', 'HKLM:\\Software\\WOW6432Node\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\*') | Where-Object { $_.DisplayName -like '*MCP Router*' }).UninstallString).Name, '/qn', '/norestart') -Wait"
+    ]
+  },
+  "shortcuts": [
+    [
+      "MCP Router.exe",
+      "MCP Router"
+    ]
+  ]
+}
