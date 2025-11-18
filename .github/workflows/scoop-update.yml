@@ -1,0 +1,128 @@
+name: Update Scoop Manifest
+
+on:
+  release:
+    types: [published, created]
+  workflow_dispatch:
+
+jobs:
+  update-scoop:
+    runs-on: windows-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Get Release Info
+        id: release
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const release = await github.rest.repos.getLatestRelease({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+            });
+            
+            const version = release.tag_name.replace(/^v/, '');
+            const msiAsset = release.assets.find(asset => 
+              asset.name.includes('msi') || asset.name.includes('MSI')
+            );
+            
+            if (!msiAsset) {
+              throw new Error('MSI asset not found in release');
+            }
+            
+            console.log('Version:', version);
+            console.log('MSI URL:', msiAsset.browser_download_url);
+            console.log('MSI Name:', msiAsset.name);
+            
+            core.setOutput('version', version);
+            core.setOutput('msi_url', msiAsset.browser_download_url);
+            core.setOutput('msi_name', msiAsset.name);
+
+      - name: Download MSI and Calculate Hash
+        id: hash
+        shell: powershell
+        env:
+          MSI_URL: ${{ steps.release.outputs.msi_url }}
+        run: |
+          $msiPath = "temp-mcp-router.msi"
+          Invoke-WebRequest -Uri $env:MSI_URL -OutFile $msiPath
+          
+          $hash = (Get-FileHash -Path $msiPath -Algorithm SHA256).Hash
+          Remove-Item $msiPath
+          
+          Write-Output "hash=$hash" >> $env:GITHUB_OUTPUT
+          Write-Output "Hash calculated: $hash"
+
+      - name: Update Scoop Manifest
+        id: manifest
+        uses: actions/github-script@v7
+        env:
+          MSI_URL: ${{ steps.release.outputs.msi_url }}
+          SHA256_HASH: ${{ steps.hash.outputs.hash }}
+          VERSION: ${{ steps.release.outputs.version }}
+        with:
+          script: |
+            const fs = require('fs');
+            const path = require('path');
+            
+            const manifestPath = path.join(process.cwd(), 'scoop', 'mcp-router.json');
+            
+            const manifest = {
+              "version": process.env.VERSION,
+              "description": "A Unified MCP Server Management App",
+              "homepage": "https://github.com/mcp-router/mcp-router",
+              "license": "Sustainable Use License",
+              "architecture": {
+                "64bit": {
+                  "url": process.env.MSI_URL,
+                  "hash": "sha256:" + process.env.SHA256_HASH
+                }
+              },
+              "pre_install": "if (!(Test-Path \"$persist_dir\")) { New-Item -ItemType Directory -Path \"$persist_dir\" -Force | Out-Null }",
+              "installer": {
+                "script": [
+                  "Start-Process msiexec.exe -ArgumentList @('/i', \"$file\", '/qn', '/norestart') -Wait"
+                ]
+              },
+              "uninstaller": {
+                "script": [
+                  "Start-Process msiexec.exe -ArgumentList @('/x', (Get-Item (Get-ItemProperty -Path @('HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\*', 'HKLM:\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\*', 'HKLM:\\Software\\WOW6432Node\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\*') | Where-Object { $_.DisplayName -like '*MCP Router*' }).UninstallString).Name, '/qn', '/norestart') -Wait"
+                ]
+              },
+              "shortcuts": [
+                [
+                  "MCP Router.exe",
+                  "MCP Router"
+                ]
+              ]
+            };
+            
+            fs.writeFileSync(manifestPath, JSON.stringify(manifest, null, 2) + '\n');
+            console.log('Scoop manifest updated:', manifestPath);
+
+      - name: Commit and Push to Scoop Bucket
+        if: github.event_name == 'release'
+        shell: bash
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VERSION: ${{ steps.release.outputs.version }}
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          
+          git add scoop/mcp-router.json
+          git commit -m "chore: update scoop manifest for v${VERSION}" || echo "No changes to commit"
+          git push origin HEAD:${{ github.ref }} || echo "Push failed, skipping"
+
+      - name: Output Manifest Preview
+        shell: powershell
+        run: |
+          $manifestPath = "scoop/mcp-router.json"
+          if (Test-Path $manifestPath) {
+            Write-Output "=== Scoop Manifest Preview ==="
+            Get-Content $manifestPath
+          }

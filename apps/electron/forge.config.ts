@@ -54,6 +54,8 @@ const config: ForgeConfig = {
       description:
         "Effortlessly manage your MCP servers with the MCP Router. MCP Router provides a user-friendly interface for managing MCP servers, making it easier than ever to work with the MCP.",
       setupIcon: "./public/images/icon/icon.ico",
+      certificateFile: process.env.SIGNING_CERT_PATH,
+      certificatePassword: process.env.SIGNING_CERT_PASSWORD,
     }),
     new MakerDMG(
       {
