@@ -41,7 +41,7 @@
 
 ```bash
 # 1. 添加 Scoop 桶（一次性）
-scoop bucket add mcp-router https://github.com/mcp-router/scoop-bucket
+scoop bucket add mcp-router https://github.com/llyzot/scoop-bucket
 
 # 2. 安装 MCP Router
 scoop install mcp-router
@@ -172,7 +172,7 @@ scoop bucket add mcp-router https://github.com/llyzot/scoop-bucket
 ## 下一步
 
 1. **创建/配置外部 Scoop 桶**（如果还未创建）
-   - 仓库：`https://github.com/mcp-router/scoop-bucket`
+   - 仓库：`https://github.com/llyzot/scoop-bucket`
    - 结构：`bucket/mcp-router.json`
 
 2. **发布第一个版本**

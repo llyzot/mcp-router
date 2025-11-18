@@ -66,11 +66,11 @@ If you need to update the manifest manually, edit `/scoop/mcp-router.json`:
 
 ### External Scoop Bucket
 
-The external Scoop bucket is maintained at: https://github.com/mcp-router/scoop-bucket
+The external Scoop bucket is maintained at: https://github.com/llyzot/scoop-bucket
 
 Users add this bucket with:
 ```bash
-scoop bucket add mcp-router https://github.com/mcp-router/scoop-bucket
+scoop bucket add mcp-router https://github.com/llyzot/scoop-bucket
 ```
 
 ## Validation
@@ -98,7 +98,7 @@ The manifest is stored and updated in this repository at `/scoop/mcp-router.json
 For a dedicated bucket, follow the Scoop bucket guidelines:
 1. Create a `scoop-bucket` repository
 2. Place manifests in `/bucket/` directory
-3. Users add with: `scoop bucket add mcp-router https://github.com/mcp-router/scoop-bucket`
+3. Users add with: `scoop bucket add mcp-router https://github.com/llyzot/scoop-bucket`
 
 ## Release Checklist
 
