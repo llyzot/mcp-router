@@ -41,7 +41,18 @@
 
 ## 📥 Installation
 
+### Via Scoop (Windows)
+
+```bash
+scoop bucket add mcp-router https://github.com/mcp-router/scoop-bucket
+scoop install mcp-router
+```
+
+### Via Direct Download
+
 Download from our [releases page](https://github.com/mcp-router/mcp-router/releases).
+
+### Connect using the CLI
 
 After setting up MCP Router, you can connect to MCP Router using the CLI:
 ```bash

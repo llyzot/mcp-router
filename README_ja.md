@@ -41,6 +41,15 @@
 
 ## 📥 インストール
 
+### Scoop 経由 (Windows)
+
+```bash
+scoop bucket add mcp-router https://github.com/mcp-router/scoop-bucket
+scoop install mcp-router
+```
+
+### 直接ダウンロード
+
 [リリースページ](https://github.com/mcp-router/mcp-router/releases)からダウンロード可能です。
 
 
