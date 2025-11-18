@@ -44,7 +44,7 @@
 ### Scoop 経由 (Windows)
 
 ```bash
-scoop bucket add mcp-router https://github.com/mcp-router/scoop-bucket
+scoop bucket add mcp-router https://github.com/llyzot/scoop-bucket
 scoop install mcp-router
 ```
 

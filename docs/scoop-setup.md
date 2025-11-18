@@ -13,7 +13,7 @@ Scoop is a command-line installer for Windows that makes it easy to install appl
 Users can install MCP Router using Scoop with the following commands:
 
 ```bash
-scoop bucket add mcp-router https://github.com/mcp-router/scoop-bucket
+scoop bucket add mcp-router https://github.com/llyzot/scoop-bucket
 scoop install mcp-router
 ```
 

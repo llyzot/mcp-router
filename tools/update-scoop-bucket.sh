@@ -12,7 +12,7 @@ if [ -z "$VERSION" ] || [ -z "$MSI_URL" ] || [ -z "$SHA256_HASH" ]; then
   exit 1
 fi
 
-SCOOP_BUCKET_REPO="https://github.com/mcp-router/scoop-bucket.git"
+SCOOP_BUCKET_REPO="https://github.com/llyzot/scoop-bucket.git"
 BUCKET_TEMP_DIR=$(mktemp -d)
 
 echo "Cloning scoop-bucket repository..."

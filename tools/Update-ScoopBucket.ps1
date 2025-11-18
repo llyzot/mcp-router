@@ -11,7 +11,7 @@ param(
 
 $ErrorActionPreference = "Stop"
 
-$ScoopBucketRepo = "https://github.com/mcp-router/scoop-bucket.git"
+$ScoopBucketRepo = "https://github.com/llyzot/scoop-bucket.git"
 $BucketTempDir = New-TemporaryFile | ForEach-Object {
     Remove-Item $_
     New-Item -ItemType Directory -Path $_

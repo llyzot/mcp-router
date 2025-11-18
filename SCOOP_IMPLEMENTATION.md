@@ -146,7 +146,7 @@ scoop install mcp-router
 用户通过以下方式安装：
 
 ```bash
-scoop bucket add mcp-router https://github.com/mcp-router/scoop-bucket
+scoop bucket add mcp-router https://github.com/llyzot/scoop-bucket
 ```
 
 该桶的 `bucket/mcp-router.json` 由 GitHub Actions 工作流自动更新。

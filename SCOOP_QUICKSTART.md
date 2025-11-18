@@ -6,7 +6,7 @@
 
 1. **First time only**: Add the Scoop bucket
    ```bash
-   scoop bucket add mcp-router https://github.com/mcp-router/scoop-bucket
+   scoop bucket add mcp-router https://github.com/llyzot/scoop-bucket
    ```
 
 2. **Install MCP Router**
