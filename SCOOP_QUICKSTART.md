@@ -1,5 +1,8 @@
 # Scoop Installation - Quick Start Guide
 
+⚠️ **重要**: 在使用 Scoop 安装前，请确保 Scoop 桶仓库已创建。
+查看 [SCOOP_BUCKET_REQUIRED.md](docs/SCOOP_BUCKET_REQUIRED.md) 获取快速设置指南。
+
 ## 👥 For End Users
 
 ### Installation (Windows)
