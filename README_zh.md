@@ -40,6 +40,15 @@
 
 ## 📥 安装
 
+### 通过 Scoop 安装 (Windows)
+
+```bash
+scoop bucket add mcp-router https://github.com/mcp-router/scoop-bucket
+scoop install mcp-router
+```
+
+### 直接下载
+
 可在 [GitHub 发布页](https://github.com/mcp-router/mcp-router/releases) 获取最新版本。
 
 ## 🚀 功能亮点
